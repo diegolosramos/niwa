@@ -221,19 +221,61 @@ export default function Page() {
 						</div>
 					</div>
 
-					<div className="mx-auto w-full max-w-xl rounded-2xl border border-primary/20 bg-primary/5 px-4 py-3 sm:px-6">
-						<p className="text-muted-foreground text-xs uppercase tracking-wide">
-							Break it into months
-						</p>
-						<p className="mt-1 font-medium text-base">
-							Monthly cost:{" "}
-							<span className="font-bold tabular-nums">
-								{usdFormatter.format(result.MONTHLY_COST_OF_OWNERSHIP)}
-							</span>
-						</p>
-					</div>
+					<p className="mt-1 font-medium text-base">
+						Monthly cost:{" "}
+						<span className="font-bold tabular-nums">
+							{usdFormatter.format(result.MONTHLY_COST_OF_OWNERSHIP)}
+						</span>
+					</p>
 				</CardContent>
 			</Card>
+
+			<article className="mx-auto w-full max-w-3xl space-y-6 py-4 text-sm leading-6">
+				<header className="space-y-2">
+					<h2 className="font-semibold text-2xl">How the real cost adds up</h2>
+					<p className="text-muted-foreground">
+						Buying a home costs more than the payment you send to the bank. This
+						calculator adds the regular costs that come with owning it.
+					</p>
+				</header>
+
+				<section className="space-y-2">
+					<h3 className="font-semibold text-base">The equation</h3>
+					<p>
+						True cost of ownership = property tax + repairs + opportunity cost +
+						mortgage debt cost.
+					</p>
+					<p className="text-muted-foreground">
+						To find the monthly cost, divide the yearly total by 12.
+					</p>
+				</section>
+
+				<section className="space-y-3">
+					<h3 className="font-semibold text-base">What each part means</h3>
+					<div className="space-y-3 text-muted-foreground">
+						<p>
+							<strong className="text-foreground">Property tax:</strong> Yearly
+							taxes paid to your local government.
+						</p>
+						<p>
+							<strong className="text-foreground">
+								Repairs and maintenance:
+							</strong>{" "}
+							Money set aside for fixes, upkeep, and wear over time.
+						</p>
+						<p>
+							<strong className="text-foreground">Opportunity cost:</strong>{" "}
+							Potential earnings you give up by putting money into a down
+							payment instead of investing it elsewhere.
+						</p>
+						<p>
+							<strong className="text-foreground">Mortgage debt cost:</strong>{" "}
+							Interest cost for the part of the home price you finance with a
+							loan.
+						</p>
+					</div>
+				</section>
+			</article>
 		</div>
 	);
 }

@@ -47,6 +47,7 @@ export function AppSidebar() {
 	const inBlog = isRouteActive(pathname, ["/blog", "/blog/*"]);
 	const inForms = isRouteActive(pathname, ["/forms", "/forms/*"]);
 	const inSkills = isRouteActive(pathname, ["/skills", "/skills/*"]);
+	const inHousing = isRouteActive(pathname, ["/housing", "/housing/*"]);
 	// const inPrimitives = isRouteActive(pathname, [
 	// 	"/primitives",
 	// 	"/primitives/*",
@@ -98,6 +99,20 @@ export function AppSidebar() {
 								<SparklesIcon className="size-4" />
 							</ItemMedia>
 							<span>Skills</span>
+						</Item>
+
+						<Item
+							className={cn(
+								"hover:bg-muted",
+								inHousing && "bg-muted font-medium"
+							)}
+							render={<Link href="/housing" />}
+							size="sm"
+						>
+							<ItemMedia variant="icon">
+								<HomeIcon className="size-4" />
+							</ItemMedia>
+							<span>Housing</span>
 						</Item>
 
 						{/* <Item
