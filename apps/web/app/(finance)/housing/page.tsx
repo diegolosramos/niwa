@@ -38,6 +38,10 @@ const percentFormatter = new Intl.NumberFormat("en-US", {
 });
 
 function parseInput(value: string, fallback: number) {
+	if (value === "") {
+		return 0;
+	}
+
 	const parsed = Number(value);
 	return Number.isFinite(parsed) ? parsed : fallback;
 }
@@ -54,6 +58,9 @@ export default function Page() {
 	const [inputs, setInputs] = useState<HousingCostInputs>(
 		DEFAULT_HOUSING_COST_INPUTS
 	);
+	const [clearedInputs, setClearedInputs] = useState<
+		Set<keyof HousingCostInputs>
+	>(() => new Set());
 	const [selectedState, setSelectedState] = useState<string | null>(null);
 	const [costPeriod, setCostPeriod] = useState<"monthly" | "yearly">("monthly");
 
@@ -65,6 +72,15 @@ export default function Page() {
 		key: K,
 		value: string
 	) {
+		setClearedInputs((current) => {
+			const next = new Set(current);
+			if (value === "") {
+				next.add(key);
+			} else {
+				next.delete(key);
+			}
+			return next;
+		});
 		setInputs((current) => ({
 			...current,
 			[key]: parseInput(value, current[key]),
@@ -74,10 +90,26 @@ export default function Page() {
 	function updatePercentageInput<
 		K extends Exclude<keyof HousingCostInputs, "housePrice">,
 	>(key: K, value: string) {
+		setClearedInputs((current) => {
+			const next = new Set(current);
+			if (value === "") {
+				next.add(key);
+			} else {
+				next.delete(key);
+			}
+			return next;
+		});
 		setInputs((current) => ({
 			...current,
 			[key]: percentageToDecimal(value, current[key]),
 		}));
+	}
+
+	function displayInput<K extends keyof HousingCostInputs>(
+		key: K,
+		value: number
+	) {
+		return clearedInputs.has(key) ? "" : value;
 	}
 
 	return (
@@ -102,7 +134,7 @@ export default function Page() {
 							}
 							step="1000"
 							type="number"
-							value={inputs.housePrice}
+							value={displayInput("housePrice", inputs.housePrice)}
 						/>
 					</div>
 
@@ -122,6 +154,11 @@ export default function Page() {
 											state as keyof typeof PROPERTY_TAX_RATES_USA
 										].rate,
 								}));
+								setClearedInputs((current) => {
+									const next = new Set(current);
+									next.delete("taxRate");
+									return next;
+								});
 							}}
 							value={selectedState}
 						>
@@ -151,7 +188,10 @@ export default function Page() {
 							}
 							step="0.1"
 							type="number"
-							value={decimalToPercentage(inputs.taxRate)}
+							value={displayInput(
+								"taxRate",
+								decimalToPercentage(inputs.taxRate)
+							)}
 						/>
 					</div>
 
@@ -166,7 +206,10 @@ export default function Page() {
 							}
 							step="0.1"
 							type="number"
-							value={decimalToPercentage(inputs.repairRate)}
+							value={displayInput(
+								"repairRate",
+								decimalToPercentage(inputs.repairRate)
+							)}
 						/>
 					</div>
 
@@ -182,7 +225,10 @@ export default function Page() {
 							}
 							step="0.1"
 							type="number"
-							value={decimalToPercentage(inputs.downPaymentRate)}
+							value={displayInput(
+								"downPaymentRate",
+								decimalToPercentage(inputs.downPaymentRate)
+							)}
 						/>
 					</div>
 
@@ -197,7 +243,10 @@ export default function Page() {
 							}
 							step="0.1"
 							type="number"
-							value={decimalToPercentage(inputs.sp500ReturnRate)}
+							value={displayInput(
+								"sp500ReturnRate",
+								decimalToPercentage(inputs.sp500ReturnRate)
+							)}
 						/>
 					</div>
 
@@ -215,7 +264,10 @@ export default function Page() {
 							}
 							step="0.1"
 							type="number"
-							value={decimalToPercentage(inputs.homeAppreciationRate)}
+							value={displayInput(
+								"homeAppreciationRate",
+								decimalToPercentage(inputs.homeAppreciationRate)
+							)}
 						/>
 					</div>
 
@@ -230,13 +282,19 @@ export default function Page() {
 							}
 							step="0.1"
 							type="number"
-							value={decimalToPercentage(inputs.mortgageRate)}
+							value={displayInput(
+								"mortgageRate",
+								decimalToPercentage(inputs.mortgageRate)
+							)}
 						/>
 					</div>
 
 					<div className="sm:col-span-2">
 						<Button
-							onClick={() => setInputs(DEFAULT_HOUSING_COST_INPUTS)}
+							onClick={() => {
+								setInputs(DEFAULT_HOUSING_COST_INPUTS);
+								setClearedInputs(new Set());
+							}}
 							variant="outline"
 						>
 							Reset to defaults
