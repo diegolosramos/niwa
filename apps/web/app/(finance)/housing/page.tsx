@@ -76,8 +76,7 @@ export default function Page() {
 					<CardTitle>Housing Cost Calculator</CardTitle>
 					<CardDescription>
 						Calculate true cost of ownership for a house using tax, maintenance
-						cost, down payment, opportunity cost, and mortgage debt cost
-						assumptions.
+						cost, down payment, opportunity cost, and mortgage cost assumptions.
 					</CardDescription>
 				</CardHeader>
 				<CardContent className="grid gap-4 sm:grid-cols-2">
@@ -204,10 +203,6 @@ export default function Page() {
 			<Card>
 				<CardHeader>
 					<CardTitle>Results</CardTitle>
-					<CardDescription>
-						Think of this like simple adding: yearly costs stack up to make your
-						total yearly housing cost.
-					</CardDescription>
 				</CardHeader>
 				<CardContent className="space-y-6 text-sm">
 					<div className="mx-auto w-full max-w-xl">
@@ -241,9 +236,8 @@ export default function Page() {
 							</div>
 							<div className="grid grid-cols-[1fr_auto] items-baseline gap-3">
 								<p className="text-muted-foreground">
-									Mortgage debt cost (
-									{percentFormatter.format(inputs.mortgageRate)} on{" "}
-									{percentFormatter.format(financedShare)} financed)
+									Mortgage cost ({percentFormatter.format(inputs.mortgageRate)}{" "}
+									on {percentFormatter.format(financedShare)} financed)
 								</p>
 								<p className="font-mono font-semibold tabular-nums">
 									{usdFormatter.format(result.COST_OF_DEBT)}
@@ -275,16 +269,6 @@ export default function Page() {
 			<article className="mx-auto w-full max-w-3xl space-y-6 py-4 text-sm leading-6">
 				<header className="space-y-2">
 					<h2 className="font-semibold text-2xl">How the cost is calculated</h2>
-					<p className="text-muted-foreground">
-						The rates in the form are shown as percentages for readability. The
-						calculation converts them to decimal multipliers: for example,
-						<span className="font-mono">
-							{` ${percentFormatter.format(inputs.taxRate)} = ${inputs.taxRate}`}
-						</span>
-						. Buying a home costs more than the payment you send to the bank, so
-						this total includes taxes, maintenance, the return given up on the
-						down payment, and mortgage interest.
-					</p>
 				</header>
 
 				<section className="space-y-3">
@@ -317,7 +301,7 @@ export default function Page() {
 						<div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3">
 							<dt>Opportunity cost rate</dt>
 							<dd className="font-mono">
-								o = {percentFormatter.format(opportunityCostRate)}
+								y = {percentFormatter.format(opportunityCostRate)}
 							</dd>
 						</div>
 						<div className="ml-4 space-y-1 border-muted border-l pl-4">
@@ -334,7 +318,7 @@ export default function Page() {
 								</dd>
 							</div>
 							<p className="font-mono">
-								o = q - a = {percentFormatter.format(inputs.sp500ReturnRate)} -{" "}
+								y = q - a = {percentFormatter.format(inputs.sp500ReturnRate)} -{" "}
 								{percentFormatter.format(inputs.homeAppreciationRate)} ={" "}
 								{percentFormatter.format(opportunityCostRate)}
 							</p>
@@ -346,127 +330,144 @@ export default function Page() {
 							</dd>
 						</div>
 					</dl>
-					<p className="text-muted-foreground">
-						The opportunity cost rate is the difference between the S&P 500
-						return (q) and median home appreciation (a).
-					</p>
 				</section>
 
 				<section className="space-y-4">
 					<h3 className="font-semibold text-base">Step-by-step calculation</h3>
 					<ol className="space-y-4 text-muted-foreground">
 						<li>
-							<p className="font-mono">
+							<p>
 								<strong className="text-foreground">
-									1. Property tax (T = t x P)
+									<span className="font-mono">1.</span> Property tax
 								</strong>
 							</p>
-							<p className="font-mono">
-								{percentFormatter.format(inputs.taxRate)} x{" "}
-								{usdFormatter.format(inputs.housePrice)} ={" "}
-								<strong className="text-foreground tabular-nums">
-									{usdFormatter.format(result.TAX)}
-								</strong>{" "}
+							<p>
+								<span className="font-mono">
+									T = t x P = {percentFormatter.format(inputs.taxRate)} x{" "}
+									{usdFormatter.format(inputs.housePrice)} ={" "}
+									<strong className="text-foreground tabular-nums">
+										{usdFormatter.format(result.TAX)}
+									</strong>
+								</span>{" "}
 								per year.
 							</p>
 						</li>
 						<li>
-							<p className="font-mono">
+							<p>
 								<strong className="text-foreground">
-									2. Repairs and maintenance (R = r x P)
+									<span className="font-mono">2.</span> Repairs and maintenance
 								</strong>
 							</p>
-							<p className="font-mono">
-								{percentFormatter.format(inputs.repairRate)} x{" "}
-								{usdFormatter.format(inputs.housePrice)} ={" "}
-								<strong className="text-foreground tabular-nums">
-									{usdFormatter.format(result.REPAIR_COST)}
-								</strong>{" "}
+							<p>
+								<span className="font-mono">
+									R = r x P = {percentFormatter.format(inputs.repairRate)} x{" "}
+									{usdFormatter.format(inputs.housePrice)} ={" "}
+									<strong className="text-foreground tabular-nums">
+										{usdFormatter.format(result.REPAIR_COST)}
+									</strong>
+								</span>{" "}
 								per year.
 							</p>
 						</li>
 						<li>
-							<p className="font-mono">
+							<p>
 								<strong className="text-foreground">
-									3. Down payment (I = i x P)
+									<span className="font-mono">3.</span> Down payment
 								</strong>
 							</p>
-							<p className="font-mono">
-								{percentFormatter.format(inputs.downPaymentRate)} x{" "}
-								{usdFormatter.format(inputs.housePrice)} ={" "}
-								<strong className="text-foreground tabular-nums">
-									{usdFormatter.format(result.DOWN_PAYMENT)}
-								</strong>
+							<p>
+								<span className="font-mono">
+									I = i x P = {percentFormatter.format(inputs.downPaymentRate)}{" "}
+									x {usdFormatter.format(inputs.housePrice)} ={" "}
+									<strong className="text-foreground tabular-nums">
+										{usdFormatter.format(result.DOWN_PAYMENT)}
+									</strong>
+								</span>
 								.
 							</p>
 						</li>
 						<li>
-							<p className="font-mono">
+							<p>
 								<strong className="text-foreground">
-									4. Opportunity cost (O = o x I)
+									<span className="font-mono">4.</span> Opportunity cost
 								</strong>
 							</p>
-							<p className="font-mono">
-								{percentFormatter.format(opportunityCostRate)} x{" "}
-								{usdFormatter.format(result.DOWN_PAYMENT)} ={" "}
-								<strong className="text-foreground tabular-nums">
-									{usdFormatter.format(result.OPPORTUNITY_COST)}
-								</strong>{" "}
+							<p>
+								<span className="font-mono">
+									Y = y x I = {percentFormatter.format(opportunityCostRate)} x{" "}
+									{usdFormatter.format(result.DOWN_PAYMENT)} ={" "}
+									<strong className="text-foreground tabular-nums">
+										{usdFormatter.format(result.OPPORTUNITY_COST)}
+									</strong>
+								</span>{" "}
 								per year.
 							</p>
 						</li>
 						<li>
-							<p className="font-mono">
+							<p>
 								<strong className="text-foreground">
-									5. Mortgage debt cost (D = d x (P - I))
+									<span className="font-mono">5.</span> Mortgage cost
 								</strong>
 							</p>
-							<p className="font-mono">
-								The financed balance is P - I:{" "}
-								{usdFormatter.format(inputs.housePrice)} -{" "}
-								{usdFormatter.format(result.DOWN_PAYMENT)} ={" "}
-								<strong className="text-foreground tabular-nums">
-									{usdFormatter.format(inputs.housePrice - result.DOWN_PAYMENT)}
-								</strong>
+							<p>
+								The financed balance is{" "}
+								<span className="font-mono">
+									P - I: {usdFormatter.format(inputs.housePrice)} -{" "}
+									{usdFormatter.format(result.DOWN_PAYMENT)} ={" "}
+									<strong className="text-foreground tabular-nums">
+										{usdFormatter.format(
+											inputs.housePrice - result.DOWN_PAYMENT
+										)}
+									</strong>
+								</span>{" "}
 								.
 							</p>
-							<p className="font-mono">
-								{percentFormatter.format(inputs.mortgageRate)} x{" "}
-								{usdFormatter.format(inputs.housePrice - result.DOWN_PAYMENT)} ={" "}
-								<strong className="text-foreground tabular-nums">
-									{usdFormatter.format(result.COST_OF_DEBT)}
-								</strong>{" "}
+							<p>
+								<span className="font-mono">
+									D = d x (P - I) ={" "}
+									{percentFormatter.format(inputs.mortgageRate)} x{" "}
+									{usdFormatter.format(inputs.housePrice - result.DOWN_PAYMENT)}{" "}
+									={" "}
+									<strong className="text-foreground tabular-nums">
+										{usdFormatter.format(result.COST_OF_DEBT)}
+									</strong>
+								</span>{" "}
 								per year.
 							</p>
 						</li>
 						<li>
-							<p className="font-mono">
+							<p>
 								<strong className="text-foreground">
-									6. Total yearly cost (K = T + R + O + D)
+									<span className="font-mono">6.</span> Total yearly cost
 								</strong>
 							</p>
-							<p className="font-mono">
-								{usdFormatter.format(result.TAX)} +{" "}
-								{usdFormatter.format(result.REPAIR_COST)} +{" "}
-								{usdFormatter.format(result.OPPORTUNITY_COST)} +{" "}
-								{usdFormatter.format(result.COST_OF_DEBT)} ={" "}
-								<strong className="text-foreground tabular-nums">
-									{usdFormatter.format(result.TRUE_COST_OF_OWNERSHIP)}
-								</strong>{" "}
+							<p>
+								<span className="font-mono">
+									K = T + R + Y + D = {usdFormatter.format(result.TAX)} +{" "}
+									{usdFormatter.format(result.REPAIR_COST)} +{" "}
+									{usdFormatter.format(result.OPPORTUNITY_COST)} +{" "}
+									{usdFormatter.format(result.COST_OF_DEBT)} ={" "}
+									<strong className="text-foreground tabular-nums">
+										{usdFormatter.format(result.TRUE_COST_OF_OWNERSHIP)}
+									</strong>
+								</span>{" "}
 								per year.
 							</p>
 						</li>
 						<li>
-							<p className="font-mono">
+							<p>
 								<strong className="text-foreground">
-									7. Total monthly cost (N = K ÷ 12)
+									<span className="font-mono">7.</span> Total monthly cost
 								</strong>
 							</p>
-							<p className="font-mono">
-								{usdFormatter.format(result.TRUE_COST_OF_OWNERSHIP)} ÷ 12 ={" "}
-								<strong className="text-foreground tabular-nums">
-									{usdFormatter.format(result.MONTHLY_COST_OF_OWNERSHIP)}
-								</strong>{" "}
+							<p>
+								<span className="font-mono">
+									N = K ÷ 12 ={" "}
+									{usdFormatter.format(result.TRUE_COST_OF_OWNERSHIP)} ÷ 12 ={" "}
+									<strong className="text-foreground tabular-nums">
+										{usdFormatter.format(result.MONTHLY_COST_OF_OWNERSHIP)}
+									</strong>
+								</span>{" "}
 								per month.
 							</p>
 						</li>
