@@ -17,6 +17,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@oss/ui/components/select";
+import { ToggleGroup, ToggleGroupItem } from "@oss/ui/components/toggle-group";
 import { useMemo, useState } from "react";
 import {
 	calculateTrueCostOfOwnership,
@@ -54,10 +55,11 @@ export default function Page() {
 		DEFAULT_HOUSING_COST_INPUTS
 	);
 	const [selectedState, setSelectedState] = useState<string | null>(null);
+	const [costPeriod, setCostPeriod] = useState<"monthly" | "yearly">("monthly");
 
 	const result = useMemo(() => calculateTrueCostOfOwnership(inputs), [inputs]);
-	const financedShare = 1 - inputs.downPaymentRate;
 	const opportunityCostRate = result.OPPORTUNITY_COST_RATE;
+	const periodDivisor = costPeriod === "monthly" ? 12 : 1;
 
 	function updateInput<K extends keyof HousingCostInputs>(
 		key: K,
@@ -244,68 +246,65 @@ export default function Page() {
 			</Card>
 
 			<Card>
-				<CardHeader>
-					<CardTitle>Results</CardTitle>
+				<CardHeader className="flex-row items-center justify-between gap-4">
+					<div className="flex w-full items-center justify-between gap-4">
+						<CardTitle>Results</CardTitle>
+						<ToggleGroup
+							aria-label="Cost period"
+							onValueChange={(value) => {
+								const period = value[0];
+								if (period === "monthly" || period === "yearly") {
+									setCostPeriod(period);
+								}
+							}}
+							value={[costPeriod]}
+							variant="outline"
+						>
+							<ToggleGroupItem value="monthly">Monthly</ToggleGroupItem>
+							<ToggleGroupItem value="yearly">Yearly</ToggleGroupItem>
+						</ToggleGroup>
+					</div>
 				</CardHeader>
 				<CardContent className="space-y-6 text-sm">
 					<div className="mx-auto w-full max-w-xl">
 						<div className="space-y-2">
 							<div className="grid grid-cols-[1fr_auto] items-baseline gap-3">
-								<p className="text-muted-foreground">
-									Property tax ({percentFormatter.format(inputs.taxRate)})
-								</p>
+								<p className="text-muted-foreground">Property tax</p>
 								<p className="font-mono font-semibold tabular-nums">
-									{usdFormatter.format(result.TAX)}
+									{usdFormatter.format(result.TAX / periodDivisor)}
 								</p>
 							</div>
 							<div className="grid grid-cols-[1fr_auto] items-baseline gap-3">
-								<p className="text-muted-foreground">
-									Repairs and maintenance (
-									{percentFormatter.format(inputs.repairRate)})
-								</p>
+								<p className="text-muted-foreground">Repairs and maintenance</p>
 								<p className="font-mono font-semibold tabular-nums">
-									{usdFormatter.format(result.REPAIR_COST)}
+									{usdFormatter.format(result.REPAIR_COST / periodDivisor)}
 								</p>
 							</div>
 							<div className="grid grid-cols-[1fr_auto] items-baseline gap-3">
-								<p className="text-muted-foreground">
-									Opportunity cost (
-									{percentFormatter.format(opportunityCostRate)} of down
-									payment)
-								</p>
+								<p className="text-muted-foreground">Opportunity cost</p>
 								<p className="font-mono font-semibold tabular-nums">
-									{usdFormatter.format(result.OPPORTUNITY_COST)}
+									{usdFormatter.format(result.OPPORTUNITY_COST / periodDivisor)}
 								</p>
 							</div>
 							<div className="grid grid-cols-[1fr_auto] items-baseline gap-3">
-								<p className="text-muted-foreground">
-									Mortgage cost ({percentFormatter.format(inputs.mortgageRate)}{" "}
-									on {percentFormatter.format(financedShare)} financed)
-								</p>
+								<p className="text-muted-foreground">Mortgage cost</p>
 								<p className="font-mono font-semibold tabular-nums">
-									{usdFormatter.format(result.COST_OF_DEBT)}
+									{usdFormatter.format(result.COST_OF_DEBT / periodDivisor)}
 								</p>
 							</div>
 						</div>
 
 						<div className="mt-4 border-foreground/25 border-t-2 border-dashed pt-3">
 							<div className="grid grid-cols-[1fr_auto] items-baseline gap-3">
-								<p className="font-medium text-base">
-									Total yearly housing cost
-								</p>
+								<p className="font-medium text-base">Total {costPeriod} cost</p>
 								<p className="font-bold font-mono text-lg tabular-nums">
-									{usdFormatter.format(result.TRUE_COST_OF_OWNERSHIP)}
+									{usdFormatter.format(
+										result.TRUE_COST_OF_OWNERSHIP / periodDivisor
+									)}
 								</p>
 							</div>
 						</div>
 					</div>
-
-					<p className="mt-1 font-medium text-base">
-						Monthly cost:{" "}
-						<span className="font-bold font-mono tabular-nums">
-							{usdFormatter.format(result.MONTHLY_COST_OF_OWNERSHIP)}
-						</span>
-					</p>
 				</CardContent>
 			</Card>
 
