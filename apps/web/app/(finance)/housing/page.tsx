@@ -10,12 +10,20 @@ import {
 } from "@oss/ui/components/card";
 import { Input } from "@oss/ui/components/input";
 import { Label } from "@oss/ui/components/label";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@oss/ui/components/select";
 import { useMemo, useState } from "react";
 import {
 	calculateTrueCostOfOwnership,
 	DEFAULT_HOUSING_COST_INPUTS,
 	type HousingCostInputs,
 } from "./cost";
+import PROPERTY_TAX_RATES_USA from "./property-tax-rates-usa";
 
 const usdFormatter = new Intl.NumberFormat("en-US", {
 	style: "currency",
@@ -45,6 +53,7 @@ export default function Page() {
 	const [inputs, setInputs] = useState<HousingCostInputs>(
 		DEFAULT_HOUSING_COST_INPUTS
 	);
+	const [selectedState, setSelectedState] = useState<string | null>(null);
 
 	const result = useMemo(() => calculateTrueCostOfOwnership(inputs), [inputs]);
 	const financedShare = 1 - inputs.downPaymentRate;
@@ -93,6 +102,40 @@ export default function Page() {
 							type="number"
 							value={inputs.housePrice}
 						/>
+					</div>
+
+					<div>
+						<Label htmlFor="stateTaxPreset">State tax preset</Label>
+						<Select
+							onValueChange={(state) => {
+								if (!state) {
+									return;
+								}
+
+								setSelectedState(state);
+								setInputs((current) => ({
+									...current,
+									taxRate:
+										PROPERTY_TAX_RATES_USA[
+											state as keyof typeof PROPERTY_TAX_RATES_USA
+										].rate,
+								}));
+							}}
+							value={selectedState}
+						>
+							<SelectTrigger className="w-full" id="stateTaxPreset">
+								<SelectValue placeholder="Choose a state" />
+							</SelectTrigger>
+							<SelectContent>
+								{Object.entries(PROPERTY_TAX_RATES_USA).map(
+									([code, { name, rate }]) => (
+										<SelectItem key={code} value={code}>
+											{name} ({decimalToPercentage(rate)}%)
+										</SelectItem>
+									)
+								)}
+							</SelectContent>
+						</Select>
 					</div>
 
 					<div>
