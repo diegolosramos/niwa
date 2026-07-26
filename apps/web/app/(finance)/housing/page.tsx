@@ -368,72 +368,10 @@ export default function Page() {
 
 			<article className="mx-auto w-full max-w-3xl space-y-6 py-4 text-sm leading-6">
 				<header className="space-y-2">
-					<h2 className="font-semibold text-2xl">How the cost is calculated</h2>
+					<h2 className="font-semibold text-2xl">Step-by-step calculation</h2>
 				</header>
 
-				<section className="space-y-3">
-					<h3 className="font-semibold text-base">Values used</h3>
-					<dl className="space-y-1 text-muted-foreground">
-						<div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3">
-							<dt>House price</dt>
-							<dd className="font-mono">
-								P = {usdFormatter.format(inputs.housePrice)}
-							</dd>
-						</div>
-						<div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3">
-							<dt>Property tax rate</dt>
-							<dd className="font-mono">
-								t = {percentFormatter.format(inputs.taxRate)}
-							</dd>
-						</div>
-						<div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3">
-							<dt>Repair rate</dt>
-							<dd className="font-mono">
-								r = {percentFormatter.format(inputs.repairRate)}
-							</dd>
-						</div>
-						<div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3">
-							<dt>Down payment rate</dt>
-							<dd className="font-mono">
-								i = {percentFormatter.format(inputs.downPaymentRate)}
-							</dd>
-						</div>
-						<div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3">
-							<dt>Opportunity cost rate</dt>
-							<dd className="font-mono">
-								y = {percentFormatter.format(opportunityCostRate)}
-							</dd>
-						</div>
-						<div className="ml-4 space-y-1 border-muted border-l pl-4">
-							<div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3">
-								<dt>S&P 500 average return</dt>
-								<dd className="font-mono">
-									q = {percentFormatter.format(inputs.sp500ReturnRate)}
-								</dd>
-							</div>
-							<div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3">
-								<dt>Median home appreciation</dt>
-								<dd className="font-mono">
-									a = {percentFormatter.format(inputs.homeAppreciationRate)}
-								</dd>
-							</div>
-							<p className="font-mono">
-								y = q - a = {percentFormatter.format(inputs.sp500ReturnRate)} -{" "}
-								{percentFormatter.format(inputs.homeAppreciationRate)} ={" "}
-								{percentFormatter.format(opportunityCostRate)}
-							</p>
-						</div>
-						<div className="grid grid-cols-[minmax(0,1fr)_auto] gap-3">
-							<dt>Mortgage rate</dt>
-							<dd className="font-mono">
-								d = {percentFormatter.format(inputs.mortgageRate)}
-							</dd>
-						</div>
-					</dl>
-				</section>
-
 				<section className="space-y-4">
-					<h3 className="font-semibold text-base">Step-by-step calculation</h3>
 					<ol className="space-y-4 text-muted-foreground">
 						<li>
 							<p>
@@ -442,8 +380,12 @@ export default function Page() {
 								</strong>
 							</p>
 							<p>
+								The property tax is equal to the product of the property tax
+								rate and the house price.{" "}
+							</p>
+							<p>
 								<span className="font-mono">
-									T = t x P = {percentFormatter.format(inputs.taxRate)} x{" "}
+									{percentFormatter.format(inputs.taxRate)} x{" "}
 									{usdFormatter.format(inputs.housePrice)} ={" "}
 									<strong className="text-foreground tabular-nums">
 										{usdFormatter.format(result.TAX)}
@@ -459,8 +401,12 @@ export default function Page() {
 								</strong>
 							</p>
 							<p>
+								The repair cost is an estimated annual expense for maintaining
+								and repairing the property.
+							</p>
+							<p>
 								<span className="font-mono">
-									R = r x P = {percentFormatter.format(inputs.repairRate)} x{" "}
+									{percentFormatter.format(inputs.repairRate)} x{" "}
 									{usdFormatter.format(inputs.housePrice)} ={" "}
 									<strong className="text-foreground tabular-nums">
 										{usdFormatter.format(result.REPAIR_COST)}
@@ -476,9 +422,14 @@ export default function Page() {
 								</strong>
 							</p>
 							<p>
+								The down payment is the initial amount paid upfront when
+								purchasing the property. The buyer decides the down payment
+								amount based on their financial situation.
+							</p>
+							<p>
 								<span className="font-mono">
-									I = i x P = {percentFormatter.format(inputs.downPaymentRate)}{" "}
-									x {usdFormatter.format(inputs.housePrice)} ={" "}
+									{percentFormatter.format(inputs.downPaymentRate)} x{" "}
+									{usdFormatter.format(inputs.housePrice)} ={" "}
 									<strong className="text-foreground tabular-nums">
 										{usdFormatter.format(result.DOWN_PAYMENT)}
 									</strong>
@@ -493,8 +444,16 @@ export default function Page() {
 								</strong>
 							</p>
 							<p>
+								The opportunity cost represents the potential returns the buyer
+								could have earned if the down payment amount was invested
+								elsewhere, such as in the stock market. It is calculated as the
+								difference between the expected return rate of the alternative
+								investment and the home appreciation rate, multiplied by the
+								down payment amount.
+							</p>
+							<p>
 								<span className="font-mono">
-									Y = y x I = {percentFormatter.format(opportunityCostRate)} x{" "}
+									{percentFormatter.format(opportunityCostRate)} x{" "}
 									{usdFormatter.format(result.DOWN_PAYMENT)} ={" "}
 									<strong className="text-foreground tabular-nums">
 										{usdFormatter.format(result.OPPORTUNITY_COST)}
@@ -510,24 +469,17 @@ export default function Page() {
 								</strong>
 							</p>
 							<p>
-								The financed balance is{" "}
-								<span className="font-mono">
-									P - I: {usdFormatter.format(inputs.housePrice)} -{" "}
-									{usdFormatter.format(result.DOWN_PAYMENT)} ={" "}
-									<strong className="text-foreground tabular-nums">
-										{usdFormatter.format(
-											inputs.housePrice - result.DOWN_PAYMENT
-										)}
-									</strong>
-								</span>{" "}
-								.
+								The mortgage cost is the interest expense on the financed
+								portion of the house price, calculated as the mortgage rate
+								multiplied by house price minus the down payment.
 							</p>
+
 							<p>
 								<span className="font-mono">
-									D = d x (P - I) ={" "}
+									{" "}
 									{percentFormatter.format(inputs.mortgageRate)} x{" "}
-									{usdFormatter.format(inputs.housePrice - result.DOWN_PAYMENT)}{" "}
-									={" "}
+									{usdFormatter.format(inputs.housePrice)} -{" "}
+									{usdFormatter.format(result.DOWN_PAYMENT)} ={" "}
 									<strong className="text-foreground tabular-nums">
 										{usdFormatter.format(result.COST_OF_DEBT)}
 									</strong>
@@ -542,8 +494,12 @@ export default function Page() {
 								</strong>
 							</p>
 							<p>
+								The total yearly cost of home ownership is the sum of the
+								property tax, repair cost, opportunity cost, and mortgage cost.
+							</p>
+							<p>
 								<span className="font-mono">
-									K = T + R + Y + D = {usdFormatter.format(result.TAX)} +{" "}
+									{usdFormatter.format(result.TAX)} +{" "}
 									{usdFormatter.format(result.REPAIR_COST)} +{" "}
 									{usdFormatter.format(result.OPPORTUNITY_COST)} +{" "}
 									{usdFormatter.format(result.COST_OF_DEBT)} ={" "}
@@ -561,8 +517,11 @@ export default function Page() {
 								</strong>
 							</p>
 							<p>
+								The total monthly cost of home ownership is obtained by dividing
+								the total yearly cost by the 12 months of the year.
+							</p>
+							<p>
 								<span className="font-mono">
-									N = K ÷ 12 ={" "}
 									{usdFormatter.format(result.TRUE_COST_OF_OWNERSHIP)} ÷ 12 ={" "}
 									<strong className="text-foreground tabular-nums">
 										{usdFormatter.format(result.MONTHLY_COST_OF_OWNERSHIP)}
