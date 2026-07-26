@@ -32,17 +32,15 @@ export default function Page() {
 				</p>
 			</header>
 
-			<Card className="border-l-4 border-l-destructive">
+			<Card>
 				<CardHeader>
 					<CardTitle>Why a new car is not the option</CardTitle>
 				</CardHeader>
 				<CardContent className="space-y-3 text-muted-foreground leading-7">
 					<p>
-						For people who are not millionaires, buying new is generally a
-						luxury purchase, not the financially sensible default. The sharpest
-						depreciation happens early, so a new-car buyer pays the largest
-						price for the same transportation a careful used-car buyer can get
-						later.
+						The sharpest depreciation happens early, so a new-car buyer pays the
+						largest price for the same transportation a careful used-car buyer
+						can get later.
 					</p>
 					<p>
 						Buy used, preferably with warranty coverage and a documented

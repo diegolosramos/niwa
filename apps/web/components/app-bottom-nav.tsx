@@ -5,10 +5,10 @@ import { isRouteActive } from "@oss/ui/hooks/use-nav-routes";
 import { cn } from "@oss/ui/lib/utils";
 import {
 	BookOpenIcon,
+	CarIcon,
 	HomeIcon,
 	HouseIcon,
 	MailIcon,
-	SparklesIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -18,7 +18,7 @@ export function AppBottomNav() {
 	const pathname = usePathname();
 	const inBlog = isRouteActive(pathname, ["/blog", "/blog/*"]);
 	const inHousing = isRouteActive(pathname, ["/housing", "/housing/*"]);
-	const inSkills = isRouteActive(pathname, ["/skills", "/skills/*"]);
+	const inCar = isRouteActive(pathname, ["/car", "/car/*"]);
 
 	return (
 		<WireframeNav
@@ -53,14 +53,14 @@ export function AppBottomNav() {
 			<Link
 				className={cn(
 					"flex flex-1 flex-col items-center justify-center gap-1 py-2 text-xs transition-colors",
-					inSkills
+					inCar
 						? "text-foreground"
 						: "text-muted-foreground hover:text-foreground"
 				)}
-				href="/skills"
+				href="/car"
 			>
-				<SparklesIcon className="size-5" />
-				<span>Skills</span>
+				<CarIcon className="size-5" />
+				<span>Buy a car</span>
 			</Link>
 			<Link
 				className={cn(

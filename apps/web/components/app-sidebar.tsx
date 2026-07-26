@@ -13,6 +13,7 @@ import { FORMS_NAV } from "config/forms";
 import {
 	// BlocksIcon,
 	BookOpenIcon,
+	CarIcon,
 	HomeIcon,
 	// LayoutGrid,
 	// MoonIcon,
@@ -48,6 +49,7 @@ export function AppSidebar() {
 	const inForms = isRouteActive(pathname, ["/forms", "/forms/*"]);
 	const inSkills = isRouteActive(pathname, ["/skills", "/skills/*"]);
 	const inHousing = isRouteActive(pathname, ["/housing", "/housing/*"]);
+	const inCar = isRouteActive(pathname, ["/car", "/car/*"]);
 	// const inPrimitives = isRouteActive(pathname, [
 	// 	"/primitives",
 	// 	"/primitives/*",
@@ -113,6 +115,17 @@ export function AppSidebar() {
 								<HomeIcon className="size-4" />
 							</ItemMedia>
 							<span>Housing</span>
+						</Item>
+
+						<Item
+							className={cn("hover:bg-muted", inCar && "bg-muted font-medium")}
+							render={<Link href="/car" />}
+							size="sm"
+						>
+							<ItemMedia variant="icon">
+								<CarIcon className="size-4" />
+							</ItemMedia>
+							<span>Buy a car</span>
 						</Item>
 
 						{/* <Item
