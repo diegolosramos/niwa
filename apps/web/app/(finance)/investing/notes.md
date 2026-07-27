@@ -22,7 +22,7 @@ This strategy is effective because it eliminates the need to think about allocat
 
 Different investment strategies can be explored after a high enough net worth is achieved, like $500,000. At that point, one might consider more aggressive growth strategies, alternative investments, or tax optimization techniques to further enhance portfolio performance.
 
-### Target Retirement Funds
+### Target Retirement Funds (TRFs)
 
 The most popular providers are Vanguard, Fidelity, and Schwab.
 

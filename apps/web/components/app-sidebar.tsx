@@ -14,6 +14,7 @@ import {
 	// BlocksIcon,
 	BookOpenIcon,
 	CarIcon,
+	ChartNoAxesCombinedIcon,
 	HomeIcon,
 	// LayoutGrid,
 	// MoonIcon,
@@ -50,6 +51,7 @@ export function AppSidebar() {
 	const inSkills = isRouteActive(pathname, ["/skills", "/skills/*"]);
 	const inHousing = isRouteActive(pathname, ["/housing", "/housing/*"]);
 	const inCar = isRouteActive(pathname, ["/car", "/car/*"]);
+	const inInvesting = isRouteActive(pathname, ["/investing", "/investing/*"]);
 	// const inPrimitives = isRouteActive(pathname, [
 	// 	"/primitives",
 	// 	"/primitives/*",
@@ -115,6 +117,20 @@ export function AppSidebar() {
 								<HomeIcon className="size-4" />
 							</ItemMedia>
 							<span>Housing</span>
+						</Item>
+
+						<Item
+							className={cn(
+								"hover:bg-muted",
+								inInvesting && "bg-muted font-medium"
+							)}
+							render={<Link href="/investing" />}
+							size="sm"
+						>
+							<ItemMedia variant="icon">
+								<ChartNoAxesCombinedIcon className="size-4" />
+							</ItemMedia>
+							<span>Investing</span>
 						</Item>
 
 						<Item

@@ -6,6 +6,7 @@ import { cn } from "@oss/ui/lib/utils";
 import {
 	BookOpenIcon,
 	CarIcon,
+	ChartNoAxesCombinedIcon,
 	HomeIcon,
 	HouseIcon,
 	MailIcon,
@@ -19,6 +20,7 @@ export function AppBottomNav() {
 	const inBlog = isRouteActive(pathname, ["/blog", "/blog/*"]);
 	const inHousing = isRouteActive(pathname, ["/housing", "/housing/*"]);
 	const inCar = isRouteActive(pathname, ["/car", "/car/*"]);
+	const inInvesting = isRouteActive(pathname, ["/investing", "/investing/*"]);
 
 	return (
 		<WireframeNav
@@ -73,6 +75,18 @@ export function AppBottomNav() {
 			>
 				<HouseIcon className="size-5" />
 				<span>Housing</span>
+			</Link>
+			<Link
+				className={cn(
+					"flex flex-1 flex-col items-center justify-center gap-1 py-2 text-xs transition-colors",
+					inInvesting
+						? "text-foreground"
+						: "text-muted-foreground hover:text-foreground"
+				)}
+				href="/investing"
+			>
+				<ChartNoAxesCombinedIcon className="size-5" />
+				<span>Investing</span>
 			</Link>
 			<ContactDropdown
 				trigger={
