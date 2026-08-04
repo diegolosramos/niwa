@@ -4,6 +4,30 @@
 
 You should only buy a new car if you're a millionaire. The depreciation cost is too high for most people, making used cars the only financially sensible option.
 
+# Buying or Leasing
+
+## Buying
+
+Buying may be a better option if you
+
+1. Want the best financial option
+2. Don't mind driving the same car for 5, 8 or 10+ years.
+3. Want the peace of mind of knowing you own a car at the end of the day.
+4. Don't want to have to worry about the milage limits associated with leasing.
+
+## Leasing
+
+Leasing may be a better option if you
+
+1. Prefer driving a new car every 3-4 years.
+2. Want to drive expensive cars with a lower monthly payment.
+3. Won't go over the milage limits
+4. Are a business owner who may be able to write off a portion of the lease payments as a business expense.
+
+# How to finance a car
+
+
+
 # The true cost of owning a car
 
 - Depreciation: The loss in value of the car over time.
